@@ -1,4 +1,4 @@
-{% set version = "1.1.3" %}
+{% set version = "1.1.3.1" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -7,31 +7,30 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: FNN_{{ version }}.tar.gz
   url:
     - {{ cran_mirror }}/src/contrib/FNN_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/FNN/FNN_{{ version }}.tar.gz
-  sha256: de763a25c9cfbd19d144586b9ed158135ec49cf7b812938954be54eb2dc59432
+  sha256: 52b0e20611481a95bced40be4126f44b002fd3a9c4c9674bb34db4e1e3b5be5a
 
 build:
-  merge_build_host: True  # [win]
-  number: 2
-  skip: true  # [win32]
+  merge_build_host: true  # [win]
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
+    - {{ compiler('c') }}              # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
-    - {{ compiler('m2w64_cxx') }}        # [win]
+    - {{ compiler('cxx') }}            # [not win]
+    - {{ compiler('m2w64_cxx') }}      # [win]
     - {{ posix }}filesystem        # [win]
     - {{ posix }}make
     - {{ posix }}sed               # [win]
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
   host:
     - r-base
   run:
@@ -45,11 +44,11 @@ test:
 
 about:
   home: https://CRAN.R-project.org/package=FNN
-  license: GPL (>= 2)
-  summary: Cover-tree and kd-tree fast k-nearest neighbor search algorithms and related applications
-    including KNN classification, regression and information measures are implemented.
+  license: GPL-2.0-or-later
+  summary: Cover-tree and kd-tree fast k-nearest neighbor search algorithms and related applications including KNN classification, regression and information measures are implemented.
   license_family: GPL3
-  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3'
+  license_file:
+    - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3
 
 extra:
   recipe-maintainers:
