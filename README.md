@@ -255,6 +255,3 @@ Feedstock Maintainers
 * [@conda-forge/r](https://github.com/orgs/conda-forge/teams/r/)
 * [@jsignell](https://github.com/jsignell/)
 
-
-<!-- dummy commit to enable rerendering -->
-
